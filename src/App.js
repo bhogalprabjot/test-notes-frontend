@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Home from "./components/Home";
+import Header from "./components/Header";
+import styled from "styled-components";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+//basic JSX - first explain this
+// const App = () => {
+//     return (
+//         <div>
+//             <h1>Hello World</h1>
+//         </div>
+//     );
+// }
+
+
+const App = () => {
+    const [showNote, toggleShowNote] = useState(false);
+    const [newNote, toggleNewNote] = useState(false);
+    return (
+        <PageContainer>
+            <Header
+                showNote={showNote}
+                toggleShowNote={toggleShowNote}
+                newNote={newNote}
+                toggleNewNote={toggleNewNote}
+            />
+            <Home
+                showNote={showNote}
+                toggleShowNote={toggleShowNote}
+                newNote={newNote}
+                toggleNewNote={toggleNewNote}
+            />
+        </PageContainer>
+    );
 }
-
 export default App;
+
+const PageContainer = styled.div`
+    height: 100vh;
+    widht: 100%;
+`

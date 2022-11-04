@@ -1,24 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 
 import { MdOutlineAddCircleOutline, MdLogout, MdSearch, MdOutlineArrowBack } from 'react-icons/md';
 import { IoSearchCircleSharp } from 'react-icons/io5'
+import { COLOR_CONSTANTS } from '../utils';
+
 
 function Header(props) {
 
     const showNote = props.showNote;
     const toggleShowNote = props.toggleShowNote;
     const newNote = props.newNote;
+    const cardColor=props.cardColor;
+    const setCardColor=props.setCardColor;
     const toggleNewNote = props.toggleNewNote;
+    const [showDropdown, toggleDropdown] = useState(false);
+ 
 
-    const createNewNode = () => {
+
+
+    const createNewNode = (color) => {
         toggleNewNote(true);
         toggleShowNote(true);
+        setCardColor(color);
+        
+
     }
     const goBack = () => {
         toggleShowNote(false);
         toggleNewNote(false);
     }
+
 
     return (
         <Container>
@@ -33,14 +45,29 @@ function Header(props) {
                             />
                         </BackButton>
                         :
-                        <AddButton>
-                            <MdOutlineAddCircleOutline
-                                size={"50px"}
-                                title={"Add Note"}
-                                onClick={createNewNode}
+                        <AddButtonContainer>
+                            <AddButton>
+                                <MdOutlineAddCircleOutline
+                                    size={"50px"}
+                                    title={"Add Note"}
+                                    onClick={() => { toggleDropdown(!showDropdown) }}
+                                />
+                            </AddButton>
+                            <ColorOptions>
+                                {
+                                    Object.keys(COLOR_CONSTANTS).map((color) => {
+                                        console.log(color, COLOR_CONSTANTS[color]);
+                                        return (
+                                            <ColorOption style={{ backgroundColor: COLOR_CONSTANTS[color], display: showDropdown ? "block" : "none" }}
+                                                onClick={()=>createNewNode(color)}
 
-                            />
-                        </AddButton>
+                                            >
+                                            </ColorOption>
+                                        );
+                                    })
+                                }
+                            </ColorOptions>
+                        </AddButtonContainer>
                 }
                 <Logo>
                     <span>Notes</span>
@@ -82,7 +109,7 @@ const LeftContainer = styled.div`
     align-items: center;
 
 `
-const AddButton = styled.div`
+const AddButtonContainer = styled.div`
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 10px;
@@ -90,7 +117,34 @@ const AddButton = styled.div`
     margin-left: 20px;
     margin-right: 20px;
     cursor: pointer;
+
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+   
 `
+const AddButton = styled.div`
+`
+
+const ColorOptions = styled.div`
+    top: 80px;
+    position: absolute;
+    z-index: 1;
+
+`
+const ColorOption = styled.div`
+    
+    display: block;    
+    border-radius: 50%;
+    width: 1.5em;
+    height: 1.5em;
+    margin-top : 10px;
+`
+
 
 const BackButton = styled.div`
     padding-top: 5px;

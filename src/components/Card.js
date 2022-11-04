@@ -1,13 +1,15 @@
 import React from 'react'
 import styled from 'styled-components';
 import { MdDeleteOutline } from 'react-icons/md';
+import { COLOR_CONSTANTS } from "../utils";
+
 
 function Card(props) {
-
+  const cardColor = props.cardColor;
   const id = props.id;
   const title = props.title;
   return (
-    <CardContainer >
+    <CardContainer style={{backgroundColor: COLOR_CONSTANTS[cardColor]}}>
       <CardBody onClick={() => props.openNote(id)}>
         <span>
           {title}

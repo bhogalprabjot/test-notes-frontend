@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { AiOutlineSave, AiOutlineCloseCircle, AiOutlineEdit } from 'react-icons/ai';
 import axios from 'axios';
-import {BASE_URL} from '../utils';
-
+import {BASE_URL, COLOR_CONSTANTS} from '../utils';
 
 
 function Details(props) {
   const newNote = props.newNote;
+  const newNoteColor = props.cardColor;
+
   const toggleNewNote = props.toggleNewNote;
+ 
   const [note, setNote] = useState(props.currentNote == null ? null : props.currentNote);
   const [editOn, setEdit] = useState(props.currentNote == null ? true : false);
 
@@ -26,14 +28,16 @@ function Details(props) {
 
   const saveChanges = () => {
     setEdit(false);
-
     axios.patch(`${BASE_URL}/notes/${note._id}`, note)
-      .then(() => { props.toggleRefresh() })
-      .catch((err) => { console.log(err); })
+    .then(() => { props.toggleRefresh() })
+    .catch((err) => { console.log(err); })
   }
-
+  
   const createNewNote = () => {
     setEdit(false);
+
+
+    console.log("new", note);
     axios.post(`${BASE_URL}/notes`, note)
       .then(
         () => {
@@ -43,10 +47,15 @@ function Details(props) {
       )
       .catch((err) => { console.log(err); })
   }
+  useEffect(() => {
+    setNote({ ...note, color: newNoteColor });
+    
+  }, [])
+  
 
 
   return (
-    <DetailsContainer>
+    <DetailsContainer style={{backgroundColor: newNote? COLOR_CONSTANTS[newNoteColor]: COLOR_CONSTANTS[note["color"]]}}>
       <HeaderContainer>
         {
           editOn ?
@@ -86,6 +95,7 @@ function Details(props) {
 export default Details;
 
 const DetailsContainer = styled.div`
+  border-radius: 30px;
   border: 1px solid black;
   padding: 20px;
   width: 100%;

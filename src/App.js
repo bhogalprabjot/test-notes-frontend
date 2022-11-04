@@ -17,6 +17,7 @@ import styled from "styled-components";
 const App = () => {
     const [showNote, toggleShowNote] = useState(false);
     const [newNote, toggleNewNote] = useState(false);
+    const [cardColor, setCardColor] = useState("#FFFFFF"); //default white
     return (
         <PageContainer>
             <Header
@@ -24,12 +25,16 @@ const App = () => {
                 toggleShowNote={toggleShowNote}
                 newNote={newNote}
                 toggleNewNote={toggleNewNote}
+                cardColor={cardColor}
+                setCardColor={setCardColor}
             />
             <Home
                 showNote={showNote}
                 toggleShowNote={toggleShowNote}
                 newNote={newNote}
                 toggleNewNote={toggleNewNote}
+                cardColor={cardColor}
+                setCardColor={setCardColor}
             />
         </PageContainer>
     );

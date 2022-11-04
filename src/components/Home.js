@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Card from './Card';
 import axios from 'axios';
 import Details from './Details';
-import {BASE_URL} from '../utils';
+import { BASE_URL } from '../utils';
 
 function Home(props) {
 
@@ -16,10 +16,13 @@ function Home(props) {
   const showNote = props.showNote;
   const toggleShowNote = props.toggleShowNote;
 
+  const cardColor = props.cardColor;
+  const setCardColor = props.setCardColor;
+
   const toggleRefresh = () => setRerfresh(!refresh);
 
   useEffect(() => {
-    console.log("base:",BASE_URL);
+    console.log("base:", BASE_URL);
     axios.get(`${BASE_URL}/notes`)
       .then((res) => {
         console.log(res);
@@ -62,6 +65,8 @@ function Home(props) {
             toggleRefresh={toggleRefresh}
             newNote={newNote}
             toggleNewNote={toggleNewNote}
+            cardColor={cardColor}
+            setCardColor={setCardColor}
           />
           :
           <HomeGrid>
@@ -72,6 +77,7 @@ function Home(props) {
                     <Card
                       title={note["title"]}
                       id={note["_id"]}
+                      cardColor={note["color"]}
                       deleteNote={deleteNote}
                       openNote={openNote}
                     />

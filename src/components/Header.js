@@ -23,7 +23,7 @@ function Header(props) {
         toggleNewNote(true);
         toggleShowNote(true);
         setCardColor(color);
-        
+
 
     }
     const goBack = () => {
@@ -56,7 +56,7 @@ function Header(props) {
                             <ColorOptions>
                                 {
                                     Object.keys(COLOR_CONSTANTS).map((color) => {
-                                        console.log(color, COLOR_CONSTANTS[color]);
+                                        // console.log(color, COLOR_CONSTANTS[color]);
                                         return (
                                             <ColorOption style={{ backgroundColor: COLOR_CONSTANTS[color], display: showDropdown ? "block" : "none" }}
                                                 onClick={()=>createNewNode(color)}

@@ -48,7 +48,8 @@ function Details(props) {
       .catch((err) => { console.log(err); })
   }
   useEffect(() => {
-    setNote({ ...note, color: newNoteColor });
+    console.log(note);
+    newNote && setNote({ ...note, color: newNoteColor });
     
   }, [])
   

@@ -11,11 +11,10 @@ function Header(props) {
     const showNote = props.showNote;
     const toggleShowNote = props.toggleShowNote;
     const newNote = props.newNote;
-    const cardColor=props.cardColor;
-    const setCardColor=props.setCardColor;
+    const cardColor = props.cardColor;
+    const setCardColor = props.setCardColor;
     const toggleNewNote = props.toggleNewNote;
     const [showDropdown, toggleDropdown] = useState(false);
- 
 
 
 
@@ -23,12 +22,14 @@ function Header(props) {
         toggleNewNote(true);
         toggleShowNote(true);
         setCardColor(color);
+        toggleDropdown(false);
 
 
     }
     const goBack = () => {
         toggleShowNote(false);
         toggleNewNote(false);
+        toggleDropdown(false);
     }
 
 
@@ -55,15 +56,21 @@ function Header(props) {
                             </AddButton>
                             <ColorOptions>
                                 {
-                                    Object.keys(COLOR_CONSTANTS).map((color) => {
-                                        // console.log(color, COLOR_CONSTANTS[color]);
-                                        return (
-                                            <ColorOption style={{ backgroundColor: COLOR_CONSTANTS[color], display: showDropdown ? "block" : "none" }}
-                                                onClick={()=>createNewNode(color)}
+                                     Object.keys(COLOR_CONSTANTS).map((color, idx) => {
+                                            return (
+                                                <ColorOption 
+                                                style={{ 
+                                                    backgroundColor: COLOR_CONSTANTS[color], 
+                                                    display: showDropdown ? "block" : "none",
+                                                    WebkitAnimationDuration: `${idx/2}s`,
+                                                    animationDuration: `${idx*1.3}s`,
+                                                   
+                                                }}
+                                                    onClick={() => createNewNode(color)}
 
-                                            >
-                                            </ColorOption>
-                                        );
+                                                >
+                                                </ColorOption>
+                                            );
                                     })
                                 }
                             </ColorOptions>
@@ -128,6 +135,34 @@ const AddButtonContainer = styled.div`
    
 `
 const AddButton = styled.div`
+    -webkit-animation: rotate-in-center 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: rotate-in-center 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+
+            @-webkit-keyframes rotate-in-center {
+                0% {
+                  -webkit-transform: rotate(-360deg);
+                          transform: rotate(-360deg);
+                  opacity: 0;
+                }
+                100% {
+                  -webkit-transform: rotate(0);
+                          transform: rotate(0);
+                  opacity: 1;
+                }
+              }
+              @keyframes rotate-in-center {
+                0% {
+                  -webkit-transform: rotate(-360deg);
+                          transform: rotate(-360deg);
+                  opacity: 0;
+                }
+                100% {
+                  -webkit-transform: rotate(0);
+                          transform: rotate(0);
+                  opacity: 1;
+                }
+              }
+              
 `
 
 const ColorOptions = styled.div`
@@ -135,14 +170,29 @@ const ColorOptions = styled.div`
     position: absolute;
     z-index: 1;
 
+
 `
 const ColorOption = styled.div`
-    
     display: block;    
     border-radius: 50%;
+    // -webkit-animation: fadeIn 1s;
+    // animation: fadeIn 1s ;
+    -webkit-animation: fadeIn ;
+    animation: fadeIn ;
+
     width: 1.5em;
     height: 1.5em;
     margin-top : 10px;
+
+    @-webkit-keyframes fadeIn {
+        from { opacity: 0; }
+          to { opacity: 1; }
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+          to { opacity: 1; }
+    }
+
 `
 
 
@@ -154,6 +204,42 @@ const BackButton = styled.div`
     margin-left: 20px;
     margin-right: 20px;
     cursor: pointer;
+
+	-webkit-animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) both;
+	        animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) both;
+    
+            @-webkit-keyframes swing-in-top-fwd {
+                0% {
+                  -webkit-transform: rotateX(-100deg);
+                          transform: rotateX(-100deg);
+                  -webkit-transform-origin: top;
+                          transform-origin: top;
+                  opacity: 0;
+                }
+                100% {
+                  -webkit-transform: rotateX(0deg);
+                          transform: rotateX(0deg);
+                  -webkit-transform-origin: top;
+                          transform-origin: top;
+                  opacity: 1;
+                }
+              }
+              @keyframes swing-in-top-fwd {
+                0% {
+                  -webkit-transform: rotateX(-100deg);
+                          transform: rotateX(-100deg);
+                  -webkit-transform-origin: top;
+                          transform-origin: top;
+                  opacity: 0;
+                }
+                100% {
+                  -webkit-transform: rotateX(0deg);
+                          transform: rotateX(0deg);
+                  -webkit-transform-origin: top;
+                          transform-origin: top;
+                  opacity: 1;
+                }
+              }
 `
 const Logo = styled.div`
     padding-top: 5px;

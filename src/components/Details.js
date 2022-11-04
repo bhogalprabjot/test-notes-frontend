@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { AiOutlineSave, AiOutlineCloseCircle, AiOutlineEdit } from 'react-icons/ai';
 import axios from 'axios';
-import {BASE_URL, COLOR_CONSTANTS} from '../utils';
+import { BASE_URL, COLOR_CONSTANTS } from '../utils';
 
 
 function Details(props) {
@@ -10,7 +10,7 @@ function Details(props) {
   const newNoteColor = props.cardColor;
 
   const toggleNewNote = props.toggleNewNote;
- 
+
   const [note, setNote] = useState(props.currentNote == null ? null : props.currentNote);
   const [editOn, setEdit] = useState(props.currentNote == null ? true : false);
 
@@ -29,10 +29,10 @@ function Details(props) {
   const saveChanges = () => {
     setEdit(false);
     axios.patch(`${BASE_URL}/notes/${note._id}`, note)
-    .then(() => { props.toggleRefresh() })
-    .catch((err) => { console.log(err); })
+      .then(() => { props.toggleRefresh() })
+      .catch((err) => { console.log(err); })
   }
-  
+
   const createNewNote = () => {
     setEdit(false);
 
@@ -50,17 +50,20 @@ function Details(props) {
   useEffect(() => {
     console.log(note);
     newNote && setNote({ ...note, color: newNoteColor });
-    
+
   }, [])
-  
+
+
 
 
   return (
-    <DetailsContainer style={{backgroundColor: newNote? COLOR_CONSTANTS[newNoteColor]: COLOR_CONSTANTS[note["color"]]}}>
+    <DetailsContainer style={{ backgroundColor: newNote ? COLOR_CONSTANTS[newNoteColor] : COLOR_CONSTANTS[note["color"]] }}>
       <HeaderContainer>
         {
           editOn ?
-            <HeaderInput type={"text"} value={note?.title} onChange={(event) => handleChange(event, true)} />
+            <HeaderInput type={"text"} value={note?.title} onChange={(event) => handleChange(event, true)}
+              style={{ backgroundColor: newNote ? COLOR_CONSTANTS[newNoteColor] : COLOR_CONSTANTS[note["color"]] }}
+            />
             :
             <HeaderText>
               <span>{note?.title}</span>
@@ -81,7 +84,9 @@ function Details(props) {
       <BodyContainer>
         {
           editOn ?
-            <BodyInput value={note?.noteBody} onChange={(event) => handleChange(event, false)} />
+            <BodyInput value={note?.noteBody} onChange={(event) => handleChange(event, false)}
+              style={{ backgroundColor: newNote ? COLOR_CONSTANTS[newNoteColor] : COLOR_CONSTANTS[note["color"]] }}
+            />
             :
             <BodyText>
               <span>{note?.noteBody}</span>
@@ -97,24 +102,46 @@ export default Details;
 
 const DetailsContainer = styled.div`
   border-radius: 30px;
-  border: 1px solid black;
   padding: 20px;
   width: 100%;
   // height: 100vh;
   height: calc(100vh - 150px);
   display: flex;
   flex-direction: column;
+
+  -webkit-animation: fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in 1.2s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    @-webkit-keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }      
   
 `
 const HeaderContainer = styled.div`
-  // border: 1px solid black;
   display: flex;
   margin-bottom: 40px;
+  margin-left: 10px;
 `
 const HeaderInput = styled.input`
   flex: 1;
   font-size: 40px;
   width: 100%;
+  border: 1px solid black;
+  border-radius: 10px;
+
+  
 `
 const HeaderText = styled.div`
   flex: 1;
@@ -123,7 +150,6 @@ const HeaderText = styled.div`
 `
 
 const ActionButtons = styled.div`
-  // border: 1px solid black;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -147,7 +173,6 @@ const CloseButton = styled.div`
 `
 
 const BodyContainer = styled.div`
-  // border: 1px solid black;
   flex: 1;
 `
 
@@ -155,6 +180,8 @@ const BodyInput = styled.textarea`
   height: 100%;
   width: 100%;
   font-size: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
 `
 const BodyText = styled.div`
   height: 100%;
